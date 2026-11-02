@@ -268,7 +268,11 @@ class _CodeShortcutActions extends StatelessWidget {
       } else {
         actions.editingController.cancelSelection();
       }
-    }
+    },
+    CodeShortcutAutocompleteIntent: (intent, actions) {
+      // Autocomplete prompts are updated when the input controller notifies.
+      actions.inputController.notifyListeners();
+    },
   };
 
   Object? _onAction(BuildContext context, Intent intent) {
@@ -287,7 +291,8 @@ class _CodeShortcutActions extends StatelessWidget {
     if (editingController.isComposing) {
       return null;
     }
-    bool keepAutoCompleteState = intent is CodeShortcutDeleteIntent;
+    bool keepAutoCompleteState = intent is CodeShortcutDeleteIntent ||
+        intent is CodeShortcutAutocompleteIntent;
     final handler = actions[intent.runtimeType];
     if (handler != null) {
       handler(intent, this);

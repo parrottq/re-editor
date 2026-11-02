@@ -51,6 +51,7 @@ enum CodeShortcutType {
   replace,
   save,
   esc,
+  autocomplete,
 }
 
 abstract class CodeShortcutsActivatorsBuilder {
@@ -219,6 +220,11 @@ class CodeShortcutEscIntent extends Intent {
   const CodeShortcutEscIntent();
 }
 
+/// Shows the autocomplete prompts for the word at the cursor.
+class CodeShortcutAutocompleteIntent extends CodeShortcutEditableIntent {
+  const CodeShortcutAutocompleteIntent();
+}
+
 const Map<CodeShortcutType, Intent> kCodeShortcutIntents = {
   CodeShortcutType.selectAll: CodeShortcutSelectAllIntent(),
   CodeShortcutType.cut: CodeShortcutCutIntent(),
@@ -270,6 +276,7 @@ const Map<CodeShortcutType, Intent> kCodeShortcutIntents = {
   CodeShortcutType.replace: CodeShortcutReplaceIntent(),
   CodeShortcutType.save: CodeShortcutSaveIntent(),
   CodeShortcutType.esc: CodeShortcutEscIntent(),
+  CodeShortcutType.autocomplete: CodeShortcutAutocompleteIntent(),
 };
 
 const Map<CodeShortcutType, List<ShortcutActivator>> _kDefaultMacCodeShortcutsActivators = {
@@ -438,6 +445,9 @@ const Map<CodeShortcutType, List<ShortcutActivator>> _kDefaultMacCodeShortcutsAc
   CodeShortcutType.esc: [
     SingleActivator(LogicalKeyboardKey.escape)
   ],
+  CodeShortcutType.autocomplete: [
+    SingleActivator(LogicalKeyboardKey.space, control: true)
+  ],
 };
 
 const Map<CodeShortcutType, List<ShortcutActivator>> _kDefaultCommonCodeShortcutsActivators = {
@@ -601,5 +611,8 @@ const Map<CodeShortcutType, List<ShortcutActivator>> _kDefaultCommonCodeShortcut
   ],
   CodeShortcutType.esc: [
     SingleActivator(LogicalKeyboardKey.escape)
+  ],
+  CodeShortcutType.autocomplete: [
+    SingleActivator(LogicalKeyboardKey.space, control: true)
   ],
 };
